@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { formatNumber } from '@/lib/web3';
 import { DEFAULT_STATS } from '@/lib/constants';
 
 const HeroSection: React.FC = () => {
+  const [countdown, setCountdown] = useState<string>('00:00:00');
+  
   const { data: stats, isLoading, error } = useQuery({
     queryKey: ['/api/stats'],
     staleTime: 60 * 1000, // 1 minute
@@ -12,6 +14,45 @@ const HeroSection: React.FC = () => {
 
   // Use default stats if data is loading or there's an error
   const displayStats = stats || DEFAULT_STATS;
+
+  // Calculate countdown to next launch
+  useEffect(() => {
+    // Set a future target date (24 hours from now for demo purposes)
+    const targetDate = new Date();
+    targetDate.setHours(targetDate.getHours() + 24);
+    
+    const updateCountdown = () => {
+      const now = new Date();
+      const timeDifference = targetDate.getTime() - now.getTime();
+      
+      if (timeDifference <= 0) {
+        // If launch time has passed, reset the countdown
+        setCountdown('00:00:00');
+        return;
+      }
+      
+      // Calculate hours, minutes, seconds
+      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      
+      // Format the countdown
+      const formattedHours = hours.toString().padStart(2, '0');
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      const formattedSeconds = seconds.toString().padStart(2, '0');
+      
+      setCountdown(`${formattedHours}:${formattedMinutes}:${formattedSeconds}`);
+    };
+    
+    // Initialize the countdown
+    updateCountdown();
+    
+    // Update countdown every second
+    const intervalId = setInterval(updateCountdown, 1000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <section className="container mx-auto px-4 pt-8 pb-16 relative z-10">
@@ -67,7 +108,7 @@ const HeroSection: React.FC = () => {
             <div className="absolute -bottom-4 -right-4 bg-[#1e1e2f] rounded-lg p-3 border border-[#6b46c1]">
               <p className="text-sm text-gray-300">Next launch in</p>
               <p className="font-space font-bold text-xl">
-                {displayStats.nextLaunch || '00:00:00'}
+                {countdown}
               </p>
             </div>
           </div>
