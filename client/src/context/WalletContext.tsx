@@ -2,6 +2,9 @@ import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { ethers } from 'ethers';
 import { useToast } from '@/hooks/use-toast';
 
+// Type for provider - adjusting for ethers v6
+type Provider = any; // Simplified for demo purposes
+
 interface WalletContextType {
   account: string | null;
   chainId: number | null;
@@ -9,7 +12,7 @@ interface WalletContextType {
   spaceBalance: number;
   isConnecting: boolean;
   isConnected: boolean;
-  provider: ethers.providers.Web3Provider | null;
+  provider: Provider | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
 }
@@ -38,7 +41,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
   const [spaceBalance, setSpaceBalance] = useState<number>(0);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
+  const [provider, setProvider] = useState<Provider | null>(null);
   
   const { toast } = useToast();
 
@@ -48,53 +51,40 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
     if (savedAccount) {
       setAccount(savedAccount);
       setIsConnected(true);
-      
-      // Mock space token balance for demonstration
-      setSpaceBalance(25340);
+      setChainId(1); // Ethereum Mainnet
+      setBalance('10.0'); // Mock ETH balance
+      setSpaceBalance(25340); // Mock space token balance
     }
   }, []);
 
-  // Connect wallet
+  // Connect wallet - with mock implementation for demo
   const connectWallet = async () => {
-    if (!window.ethereum) {
-      toast({
-        title: "MetaMask not found",
-        description: "Please install MetaMask to connect your wallet.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       setIsConnecting(true);
-
-      // Request account access
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
       
-      if (accounts.length === 0) {
-        throw new Error("No accounts found");
-      }
-
-      const account = accounts[0];
-      const network = await provider.getNetwork();
-      const balance = await provider.getBalance(account);
+      // Mock wallet connection for demo
+      // In a real app, this would connect to MetaMask or another wallet
+      const mockAccount = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
+      const mockChainId = 1; // Ethereum Mainnet
+      const mockBalance = '10.0'; // 10 ETH
       
-      setAccount(account);
-      setChainId(network.chainId);
-      setBalance(ethers.utils.formatEther(balance));
-      setProvider(provider);
+      // Simulate a slight delay for realism
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setAccount(mockAccount);
+      setChainId(mockChainId);
+      setBalance(mockBalance);
       setIsConnected(true);
       
-      // Mock space token balance for demonstration
+      // Mock space token balance
       setSpaceBalance(25340);
 
       // Save to localStorage
-      localStorage.setItem('walletAccount', account);
+      localStorage.setItem('walletAccount', mockAccount);
       
       toast({
         title: "Wallet connected",
-        description: "Your wallet has been successfully connected.",
+        description: "Your wallet has been successfully connected (Demo mode).",
       });
     } catch (error) {
       console.error("Error connecting wallet:", error);
@@ -125,52 +115,6 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
       description: "Your wallet has been disconnected.",
     });
   };
-
-  // Handle account and chain changes
-  useEffect(() => {
-    if (window.ethereum) {
-      const handleAccountsChanged = (accounts: string[]) => {
-        if (accounts.length === 0) {
-          // User disconnected their wallet
-          disconnectWallet();
-        } else if (accounts[0] !== account) {
-          // Account changed
-          setAccount(accounts[0]);
-          localStorage.setItem('walletAccount', accounts[0]);
-          
-          toast({
-            title: "Account changed",
-            description: `Connected to ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
-          });
-        }
-      };
-
-      const handleChainChanged = (chainId: string) => {
-        setChainId(parseInt(chainId, 16));
-        
-        toast({
-          title: "Network changed",
-          description: "The blockchain network has been changed.",
-        });
-      };
-
-      const handleDisconnect = () => {
-        disconnectWallet();
-      };
-
-      window.ethereum.on("accountsChanged", handleAccountsChanged);
-      window.ethereum.on("chainChanged", handleChainChanged);
-      window.ethereum.on("disconnect", handleDisconnect);
-
-      return () => {
-        if (window.ethereum.removeListener) {
-          window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
-          window.ethereum.removeListener("chainChanged", handleChainChanged);
-          window.ethereum.removeListener("disconnect", handleDisconnect);
-        }
-      };
-    }
-  }, [account]);
 
   return (
     <WalletContext.Provider

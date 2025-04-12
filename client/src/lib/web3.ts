@@ -2,29 +2,39 @@ import { ethers } from 'ethers';
 import { SPACE_TOKEN_ABI, MISSION_SHARES_ABI, DAO_GOVERNANCE_ABI } from './constants';
 import { SPACE_TOKEN_ADDRESS, MISSION_SHARES_ADDRESS, DAO_GOVERNANCE_ADDRESS } from './constants';
 
+// Type for provider/signer - simplified for demo
+type Provider = any;
+type Signer = any;
+
+// Mock implementation for demo purposes
 export const getProvider = () => {
-  if (!window.ethereum) {
-    throw new Error('No Ethereum provider found. Please install MetaMask.');
-  }
-  return new ethers.providers.Web3Provider(window.ethereum);
+  // For demo, return a mock provider
+  console.log('Getting mock provider for demo');
+  return null;
 };
 
 export const getSigner = async () => {
-  const provider = getProvider();
-  await provider.send("eth_requestAccounts", []);
-  return provider.getSigner();
+  // For demo, no actual signer needed
+  console.log('Getting mock signer for demo');
+  return null;
 };
 
-export const getSpaceTokenContract = async (signerOrProvider: ethers.providers.Provider | ethers.Signer) => {
-  return new ethers.Contract(SPACE_TOKEN_ADDRESS, SPACE_TOKEN_ABI, signerOrProvider);
+export const getSpaceTokenContract = async (signerOrProvider: Provider | Signer) => {
+  // In a real app, this would create an actual contract instance
+  console.log('Getting mock Space token contract');
+  return {};
 };
 
-export const getMissionSharesContract = async (signerOrProvider: ethers.providers.Provider | ethers.Signer) => {
-  return new ethers.Contract(MISSION_SHARES_ADDRESS, MISSION_SHARES_ABI, signerOrProvider);
+export const getMissionSharesContract = async (signerOrProvider: Provider | Signer) => {
+  // In a real app, this would create an actual contract instance
+  console.log('Getting mock Mission shares contract');
+  return {};
 };
 
-export const getDAOGovernanceContract = async (signerOrProvider: ethers.providers.Provider | ethers.Signer) => {
-  return new ethers.Contract(DAO_GOVERNANCE_ADDRESS, DAO_GOVERNANCE_ABI, signerOrProvider);
+export const getDAOGovernanceContract = async (signerOrProvider: Provider | Signer) => {
+  // In a real app, this would create an actual contract instance
+  console.log('Getting mock DAO governance contract');
+  return {};
 };
 
 export const formatAddress = (address: string | null) => {
