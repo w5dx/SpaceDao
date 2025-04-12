@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 226 30% 8%;
+    --foreground: 0 0% 100%;
+
+    --card: 226 30% 15%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 226 30% 15%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 263 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 226 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 226 30% 25%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 339 100% 67%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 226 30% 20%;
+    --input: 226 30% 20%;
+    --ring: 263 83% 58%;
+
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: 263 83% 58%;
+    --chart-2: 339 100% 67%;
+    --chart-3: 217 91% 60%;
+    --chart-4: 150 83% 58%;
+    --chart-5: 30 83% 58%;
+  }
+  
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom space-themed classes */
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 20px rgba(255, 77, 140, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* Animation classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Custom colors */
+.bg-cosmic-purple {
+  background-color: #6b46c1;
+}
+
+.bg-cosmic-purple-dark {
+  background-color: #4b3295;
+}
+
+.bg-nebula-pink {
+  background-color: #ff4d8c;
+}
+
+.bg-nebula-pink-dark {
+  background-color: #d13970;
+}
+
+.bg-space-gray {
+  background-color: #1e1e2f;
+}
+
+.bg-space-gray-light {
+  background-color: #2d2d44;
+}
+
+.bg-space-gray-lighter {
+  background-color: #3a3a55;
+}
+
+.border-cosmic-purple {
+  border-color: #6b46c1;
+}
+
+.border-nebula-pink {
+  border-color: #ff4d8c;
+}
+
+.text-cosmic-purple {
+  color: #6b46c1;
+}
+
+.text-nebula-pink {
+  color: #ff4d8c;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-cosmic {
+  background-image: linear-gradient(to right, #6b46c1, #ff4d8c);
+}
+
+.from-space-blue-800 {
+  --tw-gradient-from: #080c29;
+  --tw-gradient-to: rgba(8, 12, 41, 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-space-gray {
+  --tw-gradient-to: #1e1e2f;
+}
