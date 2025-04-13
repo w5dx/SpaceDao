@@ -1,3 +1,6 @@
+Prototype video link:- https://drive.google.com/drive/folders/1hy6HIhFlePw1U8dWryunUOiozXsn6yzF?usp=sharing
+
+
 # SpaceDAO - Crowdfunded Space Missions
 
 ![SpaceDAO Logo](generated-icon.png)
@@ -16,7 +19,7 @@ SpaceDAO is a decentralized autonomous organization (DAO) built on blockchain te
 
 ## Tech Stack
 
-### Frontend
+### Frontend 
 - React.js with TypeScript
 - Vite for fast development and build optimization
 - TanStack Query (React Query) for data fetching and caching
