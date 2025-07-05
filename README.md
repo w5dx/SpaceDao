@@ -1,4 +1,3 @@
-Prototype video link:- https://drive.google.com/drive/folders/1hy6HIhFlePw1U8dWryunUOiozXsn6yzF?usp=sharing
 
 
 # SpaceDAO - Crowdfunded Space Missions
