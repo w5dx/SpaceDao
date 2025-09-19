@@ -1,6 +1,7 @@
 
 
-# SpaceDAO - Crowdfunded Space Missions
+# SpaceDAO - The Decentralized Space Force
+http://sdao.me
 
 ![SpaceDAO Logo](generated-icon.png)
 
